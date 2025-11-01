@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>This is for Srishti</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+        }
+
+        .firecracker {
+            width: 80px;
+            height: 150px;
+            background: linear-gradient(to bottom, #ff0000 0%, #cc0000 100%);
+            margin: 0 auto 30px;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s, opacity 0.5s;
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+        }
+
+        .firecracker:hover {
+            transform: scale(1.1);
+        }
+
+        .firecracker::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 30px;
+            background: #8B4513;
+        }
+
+        .firecracker::after {
+            content: '🎆';
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+        }
+
+        .fuse {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 0;
+            background: linear-gradient(to bottom, #ff6600, #ff0000);
+            border-radius: 3px;
+            animation: burning 3s linear infinite;
+        }
+
+        @keyframes burning {
+            0% { height: 0; }
+            100% { height: 30px; }
+        }
+
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background: #f4e4c1;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 5px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .envelope:hover {
+            transform: translateY(-10px);
+        }
+
+        .envelope-flap {
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #d4b896;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: top;
+            transition: transform 0.6s;
+        }
+
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+        }
+
+        .letter {
+            width: 260px;
+            height: 300px;
+            background: white;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            padding: 20px;
+            border-radius: 3px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(0);
+            transition: all 0.8s;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .envelope.open .letter {
+            opacity: 1;
+            transform: translateY(-150px);
+        }
+
+        .letter h2 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .letter p {
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        .letter .signature {
+            text-align: right;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        .instruction {
+            color: white;
+            margin-top: 30px;
+            font-size: 18px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(0.5px);
+        }
+
+        .trail {
+            position: absolute;
+            width: 3px;
+            height: 20px;
+            pointer-events: none;
+            border-radius: 50%;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes trailFade {
+            0% {
+                transform: translate(0, 0) scaleY(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scaleY(0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-5px, -5px); }
+            20% { transform: translate(5px, 5px); }
+            30% { transform: translate(-5px, 5px); }
+            40% { transform: translate(5px, -5px); }
+            50% { transform: translate(-5px, -5px); }
+            60% { transform: translate(5px, 5px); }
+            70% { transform: translate(-5px, 5px); }
+            80% { transform: translate(5px, -5px); }
+            90% { transform: translate(-5px, -5px); }
+        }
+
+        @keyframes ringExpand {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 600px;
+                height: 600px;
+                opacity: 0;
+            }
+        }
+
+        .shockwave {
+            position: absolute;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .title {
+            color: #ffd700;
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 1.5s infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* keep overlay content from centering over page content */
+            align-items: center;
+            padding-top: 80px; /* push content down so it doesn't overlap envelope */
+        }
+
+        .overlay-text {
+            color: white;
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* make start button flow inside overlay (not fixed) so it doesn't overlap page elements */
+        .start-button {
+            position: relative;
+            display: inline-block;
+            margin: 8px auto 0;
+            padding: 16px 36px;
+            font-size: 22px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(255, 107, 107, 0.4);
+            z-index: 10001;
+            transition: all 0.25s;
+            font-weight: bold;
+            transform: none;
+        }
+
+        .start-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 50px rgba(255, 107, 107, 0.6);
+        }
+
+        .start-button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay">
+        <div class="overlay-text">
+            🎆 Click to Start the Magic! 🎆
+        </div>
+        <button class="start-button" id="startButton">START ✨</button>
+    </div>
+    
+    <div class="container">
+        <h1 class="title">✨ This is for Srishti ✨</h1>
+        
+        <div class="firecracker" id="firecracker">
+            <div class="fuse"></div>
+        </div>
+        
+        <div class="envelope" id="envelope">
+            <div class="envelope-flap"></div>
+            <div class="letter">
+                <h2>💌 I'm Sorry Srishti 💌</h2>
+                
+                <p>I'm truly sorry for what happened. Sometimes words fail us, but I hope this letter finds you well and conveys my sincere apology.</p>
+                <p>Please forgive me. You mean a lot to me, and I never meant to hurt you.</p>
+                <p class="signature">With heartfelt apologies,<br>Chandan Kumar</p>
+            </div>
+        </div>
+        
+        <p class="instruction">Watch the firecracker explode! 🎆<br>The sorry letter will appear automatically 💌</p>
+    </div>
+
+    <script>
+        const firecracker = document.getElementById('firecracker');
+        const envelope = document.getElementById('envelope');
+        const body = document.body;
+        const overlay = document.getElementById('overlay');
+        const startButton = document.getElementById('startButton');
+        
+        let audioEnabled = false;
+
+        // Start button click handler
+        startButton.addEventListener('click', function() {
+            audioEnabled = true;
+            overlay.classList.add('hidden');
+            
+            // Start the automatic sequence after button click
+            setTimeout(() => {
+                explodeFirecracker();
+                
+                // Wait 1 second after explosion, then show letter
+                setTimeout(() => {
+                    envelope.classList.add('open');
+                }, 1000);
+            }, 2000);
+        });
+
+        // Create sparkles
+        function createSparkles() {
+            for (let i = 0; i < 20; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 1.5 + 's';
+                body.appendChild(sparkle);
+            }
+        }
+
+        createSparkles();
+
+        // Create explosion sound effect using Web Audio API
+        function playExplosionSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Main explosion boom - deep bass
+            const boom = audioContext.createOscillator();
+            const boomGain = audioContext.createGain();
+            
+            boom.type = 'sawtooth';
+            boom.frequency.setValueAtTime(120, audioContext.currentTime);
+            boom.frequency.exponentialRampToValueAtTime(40, audioContext.currentTime + 0.1);
+            
+            boomGain.gain.setValueAtTime(0.8, audioContext.currentTime);
+            boomGain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.8);
+            
+            boom.connect(boomGain);
+            boomGain.connect(audioContext.destination);
+            
+            boom.start(audioContext.currentTime);
+            boom.stop(audioContext.currentTime + 0.8);
+            
+            // High frequency crack
+            const crack = audioContext.createOscillator();
+            const crackGain = audioContext.createGain();
+            
+            crack.type = 'square';
+            crack.frequency.setValueAtTime(800, audioContext.currentTime);
+            crack.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.05);
+            
+            crackGain.gain.setValueAtTime(0.6, audioContext.currentTime);
+            crackGain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            
+            crack.connect(crackGain);
+            crackGain.connect(audioContext.destination);
+            
+            crack.start(audioContext.currentTime);
+            crack.stop(audioContext.currentTime + 0.3);
+            
+            // White noise for explosion texture
+            const bufferSize = audioContext.sampleRate * 0.5;
+            const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+            const data = buffer.getChannelData(0);
+            
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+            }
+            
+            const noise = audioContext.createBufferSource();
+            noise.buffer = buffer;
+            
+            const noiseFilter = audioContext.createBiquadFilter();
+            noiseFilter.type = 'bandpass';
+            noiseFilter.frequency.value = 1000;
+            
+            const noiseGain = audioContext.createGain();
+            noiseGain.gain.setValueAtTime(0.4, audioContext.currentTime);
+            noiseGain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            noise.connect(noiseFilter);
+            noiseFilter.connect(noiseGain);
+            noiseGain.connect(audioContext.destination);
+            
+            noise.start(audioContext.currentTime);
+            noise.stop(audioContext.currentTime + 0.5);
+            
+            // Sparkle sounds (delayed) - high pitch pops
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const sparkle = audioContext.createOscillator();
+                    const sparkleGain = audioContext.createGain();
+                    
+                    sparkle.type = 'sine';
+                    sparkle.frequency.setValueAtTime(2000 + Math.random() * 1000, audioContext.currentTime);
+                    
+                    sparkleGain.gain.setValueAtTime(0.2, audioContext.currentTime);
+                    sparkleGain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                    
+                    sparkle.connect(sparkleGain);
+                    sparkleGain.connect(audioContext.destination);
+                    
+                    sparkle.start(audioContext.currentTime);
+                    sparkle.stop(audioContext.currentTime + 0.2);
+                }, i * 100);
+            }
+        }
+
+        // Firecracker explosion function
+        function explodeFirecracker() {
+            // Play explosion sound if audio is enabled
+            if (audioEnabled) {
+                playExplosionSound();
+            }
+            
+            const rect = firecracker.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            // Shake the screen
+            body.style.animation = 'shake 0.5s';
+            setTimeout(() => body.style.animation = '', 500);
+
+            // Create shockwave rings
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    const shockwave = document.createElement('div');
+                    shockwave.className = 'shockwave';
+                    shockwave.style.left = centerX + 'px';
+                    shockwave.style.top = centerY + 'px';
+                    shockwave.style.animation = 'ringExpand 1.5s ease-out forwards';
+                    body.appendChild(shockwave);
+                    setTimeout(() => shockwave.remove(), 1500);
+                }, i * 200);
+            }
+
+            // Main explosion - First burst
+            for (let i = 0; i < 200; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    
+                    const colors = ['#ff0000', '#ffd700', '#ff6600', '#00ff00', '#0099ff', '#ff00ff', '#ffffff', '#ff1493', '#00ffff', '#ffff00'];
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.background = color;
+                    particle.style.boxShadow = `0 0 20px ${color}, 0 0 40px ${color}`;
+                    
+                    const size = 8 + Math.random() * 12;
+                    particle.style.width = size + 'px';
+                    particle.style.height = size + 'px';
+                    
+                    particle.style.left = centerX + 'px';
+                    particle.style.top = centerY + 'px';
+                    
+                    const angle = (Math.PI * 2 * i) / 200 + (Math.random() - 0.5) * 0.4;
+                    const velocity = 200 + Math.random() * 400;
+                    const tx = Math.cos(angle) * velocity;
+                    const ty = Math.sin(angle) * velocity;
+                    
+                    particle.style.setProperty('--tx', tx + 'px');
+                    particle.style.setProperty('--ty', ty + 'px');
+                    
+                    body.appendChild(particle);
+                    
+                    particle.style.animation = 'explode 2.5s ease-out forwards';
+                    
+                    setTimeout(() => particle.remove(), 2500);
+                }, i * 3);
+            }
+
+            // Add trails to particles
+            for (let i = 0; i < 80; i++) {
+                setTimeout(() => {
+                    const trail = document.createElement('div');
+                    trail.className = 'trail';
+                    
+                    const colors = ['#ff6600', '#ffd700', '#ff0000'];
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    trail.style.background = `linear-gradient(to bottom, ${color}, transparent)`;
+                    
+                    trail.style.left = centerX + 'px';
+                    trail.style.top = centerY + 'px';
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = 150 + Math.random() * 350;
+                    const tx = Math.cos(angle) * velocity;
+                    const ty = Math.sin(angle) * velocity;
+                    
+                    trail.style.setProperty('--tx', tx + 'px');
+                    trail.style.setProperty('--ty', ty + 'px');
+                    
+                    body.appendChild(trail);
+                    
+                    trail.style.animation = 'trailFade 2s ease-out forwards';
+                    
+                    setTimeout(() => trail.remove(), 2000);
+                }, i * 5);
+            }
+
+            // Second burst - Sparkle wave
+            setTimeout(() => {
+                for (let i = 0; i < 150; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    
+                    particle.style.background = '#ffffff';
+                    particle.style.boxShadow = '0 0 25px #ffffff, 0 0 50px #ffffff';
+                    
+                    const size = 4 + Math.random() * 8;
+                    particle.style.width = size + 'px';
+                    particle.style.height = size + 'px';
+                    
+                    particle.style.left = centerX + 'px';
+                    particle.style.top = centerY + 'px';
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = 150 + Math.random() * 350;
+                    const tx = Math.cos(angle) * velocity;
+                    const ty = Math.sin(angle) * velocity;
+                    
+                    particle.style.setProperty('--tx', tx + 'px');
+                    particle.style.setProperty('--ty', ty + 'px');
+                    
+                    body.appendChild(particle);
+                    
+                    particle.style.animation = 'explode 2.2s ease-out forwards';
+                    
+                    setTimeout(() => particle.remove(), 2200);
+                }
+            }, 300);
+
+            // Third burst - Golden stars
+            setTimeout(() => {
+                for (let i = 0; i < 100; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    
+                    const colors = ['#ffd700', '#ffff00', '#ff6600', '#ffaa00'];
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.background = color;
+                    particle.style.boxShadow = `0 0 30px ${color}, 0 0 60px ${color}`;
+                    
+                    particle.style.width = '12px';
+                    particle.style.height = '12px';
+                    
+                    particle.style.left = centerX + 'px';
+                    particle.style.top = centerY + 'px';
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = 100 + Math.random() * 300;
+                    const tx = Math.cos(angle) * velocity;
+                    const ty = Math.sin(angle) * velocity;
+                    
+                    particle.style.setProperty('--tx', tx + 'px');
+                    particle.style.setProperty('--ty', ty + 'px');
+                    
+                    body.appendChild(particle);
+                    
+                    particle.style.animation = 'explode 3s ease-out forwards';
+                    
+                    setTimeout(() => particle.remove(), 3000);
+                }
+            }, 600);
+
+            // Fourth burst - Colorful confetti
+            setTimeout(() => {
+                for (let i = 0; i < 120; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    
+                    const colors = ['#ff1493', '#00ffff', '#7fff00', '#ff00ff', '#00ff7f'];
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.background = color;
+                    particle.style.boxShadow = `0 0 20px ${color}`;
+                    
+                    const size = 6 + Math.random() * 10;
+                    particle.style.width = size + 'px';
+                    particle.style.height = size + 'px';
+                    
+                    particle.style.left = centerX + 'px';
+                    particle.style.top = centerY + 'px';
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = 120 + Math.random() * 280;
+                    const tx = Math.cos(angle) * velocity;
+                    const ty = Math.sin(angle) * velocity;
+                    
+                    particle.style.setProperty('--tx', tx + 'px');
+                    particle.style.setProperty('--ty', ty + 'px');
+                    
+                    body.appendChild(particle);
+                    
+                    particle.style.animation = 'explode 2.8s ease-out forwards';
+                    
+                    setTimeout(() => particle.remove(), 2800);
+                }
+            }, 900);
+
+            // Multiple screen flashes
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    const flash = document.createElement('div');
+                    flash.style.position = 'fixed';
+                    flash.style.top = '0';
+                    flash.style.left = '0';
+                    flash.style.width = '100%';
+                    flash.style.height = '100%';
+                    flash.style.background = i === 0 ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 200, 0, 0.5)';
+                    flash.style.pointerEvents = 'none';
+                    flash.style.zIndex = '9999';
+                    body.appendChild(flash);
+                    
+                    setTimeout(() => {
+                        flash.style.transition = 'opacity 0.2s';
+                        flash.style.opacity = '0';
+                        setTimeout(() => flash.remove(), 200);
+                    }, 80);
+                }, i * 250);
+            }
+
+            // Hide firecracker after explosion
+            setTimeout(() => {
+                firecracker.style.opacity = '0';
+                firecracker.style.transform = 'scale(0)';
+            }, 200);
+        }
+
+        // Manual control - clicking firecracker
+        firecracker.addEventListener('click', function() {
+            if (audioEnabled) {
+                explodeFirecracker();
+            }
+        });
+        
+        envelope.addEventListener('click', function() {
+            envelope.classList.toggle('open');
+        });
+    </script>
+</body>
+</html>
