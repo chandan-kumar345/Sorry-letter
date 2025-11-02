@@ -569,3 +569,77 @@ body {
     .firecracker { width: 60px; height: 110px; }
     .fire-avatar { width: 60px; height: 110px; border-radius: 6px; }
 }
+
+/* mobile layout tweaks so title, fuse and avatar don't overlap and everything scales nicely */
+@media (max-width: 420px) {
+    .container {
+        padding-top: 14px; /* lift content a bit on small screens */
+    }
+
+    .title {
+        font-size: 20px;         /* smaller title on phones */
+        line-height: 1.05;
+        margin: 6px auto 10px;
+        padding: 4px 10px;
+        white-space: nowrap;
+        text-overflow: clip;
+        z-index: 30;             /* ensure title sits above fuse/avatar */
+        display: inline-block;
+        background: rgba(0,0,0,0.15); /* subtle backdrop to keep title readable */
+        border-radius: 6px;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.45);
+    }
+
+    .firecracker {
+        width: 56px;             /* smaller cracker */
+        height: 120px;
+        margin: 2px auto 18px;   /* reduce spacing so title remains visible */
+        border-radius: 8px;
+        z-index: 20;
+    }
+
+    .fire-avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        object-fit: cover;
+        box-shadow: inset 0 6px 18px rgba(0,0,0,0.25);
+    }
+
+    .fuse {
+        top: -26px;              /* move fuse up so it doesn't overlap title */
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 28;             /* keep fuse above avatar but below title */
+        pointer-events: none;
+    }
+
+    .fuse .spark {
+        width: 10px;
+        height: 10px;
+    }
+
+    .instruction {
+        font-size: 13px;
+        margin-top: 12px;
+    }
+}
+
+/* extra small phones */
+@media (max-width: 360px) {
+    .title {
+        font-size: 18px;
+        padding: 3px 8px;
+        margin-bottom: 8px;
+    }
+
+    .firecracker {
+        width: 48px;
+        height: 100px;
+        margin-bottom: 12px;
+    }
+
+    .fuse { top: -22px; }
+    .fuse .spark { width: 9px; height: 9px; }
+    .instruction { font-size: 12px; }
+}
