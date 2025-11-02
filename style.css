@@ -429,3 +429,60 @@ body {
     .forgive-card { padding: 14px 16px; }
     .forgive-text { font-size: 16px; }
 }
+ /* Update the forgive modal styles */
+        .forgive-modal {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 10050;
+        }
+
+        .forgive-card {
+            background: #ffffff;
+            padding: 24px 30px;
+            border-radius: 12px;
+            max-width: 90%;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .forgive-text {
+            color: #000000;
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        /* Style for the modal close button */
+        .forgive-card button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.2s;
+        }
+
+        .forgive-card button:hover {
+            background: #ff5252;
+        }
+
+        /* For smaller screens */
+        @media (max-width: 480px) {
+            .forgive-card {
+                padding: 20px;
+            }
+            .forgive-text {
+                font-size: 16px;
+            }
+        }
