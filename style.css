@@ -375,3 +375,57 @@ body {
     font-size: 16px;
     padding: 8px 14px;
 }
+
+/* forgive modal: backdrop blur + centered message */
+.forgive-modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(6px) saturate(1.05);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 10050;
+    animation: modalFadeIn 180ms ease-out forwards;
+    pointer-events: auto;
+}
+
+.forgive-card {
+    background: rgba(255,255,255,0.98);
+    color: #222;
+    padding: 18px 20px;
+    border-radius: 12px;
+    max-width: 92%;
+    width: 420px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+    text-align: center;
+}
+
+.forgive-text {
+    font-size: 18px;
+    line-height: 1.4;
+    font-weight: 600;
+    color: #222;
+    letter-spacing: 0.2px;
+}
+
+/* fade-out animation when hiding */
+.forgive-hide {
+    animation: modalFadeOut 220ms ease-in forwards;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(6px) scale(0.995); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes modalFadeOut {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to   { opacity: 0; transform: translateY(10px) scale(0.99); }
+}
+
+/* small-screen adjustments */
+@media (max-width: 420px) {
+    .forgive-card { padding: 14px 16px; }
+    .forgive-text { font-size: 16px; }
+}

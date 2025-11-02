@@ -413,19 +413,79 @@
                 const btns = document.createElement('div');
                 btns.className = 'action-buttons';
                 btns.innerHTML = `
-                    <button class="primary" id="btnForgive">Forgive</button>
+                    <button class="primary" id="btnForgive">Forgive Me</button>
                     <button class="secondary" id="btnClose">Close</button>
                 `;
                 document.querySelector('.container').appendChild(btns);
 
                 // button handlers (simple default behaviors)
                 document.getElementById('btnForgive').addEventListener('click', () => {
-                    btns.innerHTML = '<div class="thanks">Thank you 💖</div>';
-                    setTimeout(() => btns.remove(), 1800);
+                    // Remove any existing modal first (if any)
+                    const existingModal = document.querySelector('.forgive-modal');
+                    if (existingModal) {
+                        existingModal.remove();
+                    }
+
+                    // Create new modal
+                    const modal = document.createElement('div');
+                    modal.className = 'forgive-modal';
+                    modal.innerHTML = `
+                        <div class="forgive-card" role="dialog" aria-modal="true">
+                            <div class="forgive-text">😄 Agar maaf kar diya hai to prove it — mere se Parle G maango.🍪</div>
+                            <button class="secondary" id="modalClose" style="margin-top:12px; min-width:100px;">Close</button>
+                        </div>
+                    `;
+                    document.body.appendChild(modal);
+
+                    // Enable close button functionality
+                    document.getElementById('modalClose').addEventListener('click', () => {
+                        modal.classList.add('forgive-hide');
+                        modal.addEventListener('animationend', () => {
+                            modal.remove();
+                            // Re-enable the Forgive button after modal is closed
+                            const btnForgive = document.getElementById('btnForgive');
+                            if (btnForgive) btnForgive.disabled = false;
+                        }, { once: true });
+                    });
+
+                    // Optional: Send to backend
+                    fetch('http://localhost:3000/api/selection', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            choice: 'forgive',
+                            page: window.location.pathname,
+                            timestamp: new Date().toISOString()
+                        })
+                    }).catch(() => { /* ignore network errors */ });
                 });
 
                 document.getElementById('btnClose').addEventListener('click', () => {
-                    btns.remove();
+                    // Remove any existing modal first
+                    const existingModal = document.querySelector('.forgive-modal');
+                    if (existingModal) {
+                        existingModal.remove();
+                    }
+
+                    // Create pleading modal
+                    const modal = document.createElement('div');
+                    modal.className = 'forgive-modal';
+                    modal.innerHTML = `
+                        <div class="forgive-card" role="dialog" aria-modal="true">
+                            <div class="forgive-text">🙏 Please close mat karo mujhe maaf ker do agli baar se aisa nhi hoga. 🥺</div>
+                            <div style="margin-top:16px; display:flex; justify-content:center;">
+                                <button class="primary" id="pleadingForgive">Ok, Maaf Kiya</button>
+                            </div>
+                        </div>
+                    `;
+                    document.body.appendChild(modal);
+
+                    // Handle "Ok, Maaf Kiya" button
+                    document.getElementById('pleadingForgive').addEventListener('click', () => {
+                        // Trigger the same behavior as the main Forgive button
+                        document.getElementById('btnForgive').click();
+                        modal.remove();
+                    });
                 });
             }, { once: true });
         }
