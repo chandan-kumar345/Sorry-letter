@@ -56,6 +56,15 @@
                 // Wait 1 second after explosion, then show letter
                 setTimeout(() => {
                     envelope.classList.add('open');
+
+                    // remove instruction and insert buttons
+                    removeInstructionThenAddButtons();
+                    
+                    // remove envelope with animation after 6s (adjust time as needed)
+                    setTimeout(() => {
+                        envelope.classList.add('removing');
+                        envelope.addEventListener('animationend', () => envelope.remove(), { once: true });
+                    }, 6000);
                 }, 1000);
             }, 2000);
         });
@@ -389,6 +398,37 @@
         envelope.addEventListener('click', function() {
             envelope.classList.toggle('open');
         });
+
+        // remove instruction text with animation, then add two buttons
+        function removeInstructionThenAddButtons() {
+            const inst = document.querySelector('.instruction');
+            if (!inst) return;
+
+            inst.classList.add('removing');
+            inst.addEventListener('animationend', () => {
+                // remove instruction element
+                inst.remove();
+
+                // create buttons container
+                const btns = document.createElement('div');
+                btns.className = 'action-buttons';
+                btns.innerHTML = `
+                    <button class="primary" id="btnForgive">Forgive</button>
+                    <button class="secondary" id="btnClose">Close</button>
+                `;
+                document.querySelector('.container').appendChild(btns);
+
+                // button handlers (simple default behaviors)
+                document.getElementById('btnForgive').addEventListener('click', () => {
+                    btns.innerHTML = '<div class="thanks">Thank you 💖</div>';
+                    setTimeout(() => btns.remove(), 1800);
+                });
+
+                document.getElementById('btnClose').addEventListener('click', () => {
+                    btns.remove();
+                });
+            }, { once: true });
+        }
     </script>
 </body>
 </html>
