@@ -11,14 +11,19 @@ body {
     justify-content: center;
     align-items: center;
     font-family: 'Arial', sans-serif;
-    overflow: hidden;
+    overflow: auto; /* allow scrolling on small screens */
     position: relative;
 }
 
+/* keep the container centered on desktop but responsive on mobile */
 .container {
     text-align: center;
     z-index: 10;
     position: relative; /* enable absolute child positioning */
+    width: 100%;
+    max-width: 880px;
+    padding: 0 20px;
+    margin: 0 auto;
 }
 
 .firecracker {
@@ -71,9 +76,10 @@ body {
     100% { height: 30px; }
 }
 
+/* make envelope scale instead of fixed px sizes on small screens */
 .envelope {
-    width: 300px;
-    height: 200px;
+    width: 420px;
+    height: 280px;
     background: #f4e4c1;
     margin: 0 auto;
     position: relative;
@@ -284,31 +290,10 @@ body {
     word-break: normal;
     overflow-wrap: normal;
     -webkit-font-smoothing: antialiased;
+    z-index: 30;
 }
 
-/* extra tweak for very narrow phones */
-@media (max-width: 420px) {
-    .title {
-        font-size: clamp(14px, 9.5vw, 32px);
-        max-width: 92vw;
-        margin-bottom: 14px;
-    }
-}
-
-.sparkle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: white;
-    border-radius: 50%;
-    animation: sparkle 1.5s infinite;
-}
-
-@keyframes sparkle {
-    0%, 100% { opacity: 0; transform: scale(0); }
-    50% { opacity: 1; transform: scale(1); }
-}
-
+/* adjust overlay on very small screens so it doesn't cover everything */
 .overlay {
     position: fixed;
     top: 0;
@@ -321,7 +306,7 @@ body {
     flex-direction: column;
     justify-content: flex-start; /* keep overlay content from centering over page content */
     align-items: center;
-    padding-top: 80px; /* push content down so it doesn't overlap envelope */
+    padding-top: 72px; /* slightly smaller on mobile */
 }
 
 .overlay-text {
