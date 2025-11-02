@@ -129,11 +129,44 @@ body {
     transform: translateY(-150px);
 }
 
+/* Modify letter title styles */
 .letter h2 {
     color: #e74c3c;
     margin-bottom: 15px;
-    font-size: 20px;
+    font-size: clamp(16px, 5vw, 20px);
     text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 5px;
+}
+
+@media screen and (max-width: 480px) {
+    .letter h2 {
+        font-size: 16px;
+        margin-bottom: 12px;
+        max-width: 100%;
+    }
+
+    .letter {
+        padding: 15px 12px;
+    }
+
+    .instruction {
+        font-size: 16px; /* Reduce font size for smaller screens */
+        white-space: nowrap; /* Prevent text wrapping */
+        overflow: hidden; /* Hide overflow text */
+        text-overflow: ellipsis; /* Add ellipsis for overflow text */
+        max-width: 90%; /* Ensure it stays within the viewport */
+    }
+}
+
+/* Extra small devices */
+@media screen and (max-width: 360px) {
+    .letter h2 {
+        font-size: 15px;
+        margin-bottom: 10px;
+    }
 }
 
 .letter p {
@@ -383,8 +416,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0,0,0,0.35);
-    backdrop-filter: blur(6px) saturate(1.05);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     z-index: 10050;
     animation: modalFadeIn 180ms ease-out forwards;
@@ -392,22 +425,38 @@ body {
 }
 
 .forgive-card {
-    background: rgba(255,255,255,0.98);
-    color: #222;
-    padding: 18px 20px;
+    background: #ffffff;
+    padding: 24px 30px;
     border-radius: 12px;
-    max-width: 92%;
-    width: 420px;
-    box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+    max-width: 90%;
+    width: 400px;
     text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
 .forgive-text {
+    color: #000000;
     font-size: 18px;
-    line-height: 1.4;
-    font-weight: 600;
-    color: #222;
-    letter-spacing: 0.2px;
+    line-height: 1.5;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+/* Style for the modal close button */
+.forgive-card button {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.2s;
+}
+
+.forgive-card button:hover {
+    background: #ff5252;
 }
 
 /* fade-out animation when hiding */
@@ -424,65 +473,75 @@ body {
     to   { opacity: 0; transform: translateY(10px) scale(0.99); }
 }
 
-/* small-screen adjustments */
-@media (max-width: 420px) {
-    .forgive-card { padding: 14px 16px; }
-    .forgive-text { font-size: 16px; }
+/* Mobile text adjustments */
+@media screen and (max-width: 480px) {
+    .title {
+        font-size: 24px;
+        margin-bottom: 15px;
+        padding: 0 10px;
+        white-space: nowrap;
+    }
+
+    .letter {
+        padding: 15px;
+        font-size: 14px;
+    }
+
+    .letter h2 {
+        font-size: 16px;
+        margin-bottom: 12px;
+        max-width: 100%;
+    }
+
+    .letter p {
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+
+    .letter .signature {
+        margin-top: 15px;
+        font-size: 14px;
+    }
+
+    .forgive-text {
+        font-size: 15px;
+        line-height: 1.4;
+        padding: 0 5px;
+    }
+
+    .action-buttons button {
+        font-size: 14px;
+        padding: 8px 16px;
+        min-width: 100px;
+    }
+
+    .forgive-card {
+        width: 90%;
+        max-width: 320px;
+        padding: 16px;
+    }
+
+    .instruction {
+        font-size: 16px; /* Reduce font size for smaller screens */
+        white-space: nowrap; /* Prevent text wrapping */
+        overflow: hidden; /* Hide overflow text */
+        text-overflow: ellipsis; /* Add ellipsis for overflow text */
+        max-width: 90%; /* Ensure it stays within the viewport */
+    }
 }
- /* Update the forgive modal styles */
-        .forgive-modal {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            z-index: 10050;
-        }
 
-        .forgive-card {
-            background: #ffffff;
-            padding: 24px 30px;
-            border-radius: 12px;
-            max-width: 90%;
-            width: 400px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        }
+/* Extra small devices */
+@media screen and (max-width: 360px) {
+    .title {
+        font-size: 20px;
+    }
 
-        .forgive-text {
-            color: #000000;
-            font-size: 18px;
-            line-height: 1.5;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
+    .letter {
+        font-size: 13px;
+        padding: 12px;
+    }
 
-        /* Style for the modal close button */
-        .forgive-card button {
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background 0.2s;
-        }
-
-        .forgive-card button:hover {
-            background: #ff5252;
-        }
-
-        /* For smaller screens */
-        @media (max-width: 480px) {
-            .forgive-card {
-                padding: 20px;
-            }
-            .forgive-text {
-                font-size: 16px;
-            }
-        }
+    .forgive-text {
+        font-size: 14px;
+    }
+}
