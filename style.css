@@ -231,9 +231,22 @@ body {
 
 .title {
     color: #ffd700;
-    font-size: 30px;
+    /* responsive sizing: won't grow larger than 36px, won't shrink below 20px */
+    font-size: clamp(20px, 6.5vw, 36px);
     margin-bottom: 26px;
     text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    text-align: center;
+    white-space: nowrap;        /* keep on one line */
+    overflow: hidden;           /* avoid horizontal scroll */
+    text-overflow: ellipsis;    /* if it can't fit, show ellipsis */
+}
+
+/* extra tweak for very narrow phones */
+@media (max-width: 360px) {
+    .title {
+        font-size: clamp(18px, 8.5vw, 30px);
+        margin-bottom: 18px;
+    }
 }
 
 .sparkle {
