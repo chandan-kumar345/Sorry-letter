@@ -18,6 +18,7 @@ body {
 .container {
     text-align: center;
     z-index: 10;
+    position: relative; /* enable absolute child positioning */
 }
 
 .firecracker {
@@ -30,6 +31,7 @@ body {
     cursor: pointer;
     transition: transform 0.3s, opacity 0.5s;
     box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+    overflow: hidden; /* clip avatar to cracker shape */
 }
 
 .firecracker:hover {
@@ -48,12 +50,8 @@ body {
 }
 
 .firecracker::after {
-    content: '🎆';
-    position: absolute;
-    top: -50px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 24px;
+    /* hide the fireworks emoji */
+    display: none;
 }
 
 .fuse {
@@ -544,4 +542,30 @@ body {
     .forgive-text {
         font-size: 14px;
     }
+}
+
+/* avatar fills the cracker area */
+.fire-avatar {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;      /* match .firecracker width */
+    height: 150px;    /* match .firecracker height */
+    object-fit: cover;
+    border-radius: 8px; /* slightly inset to match cracker corners */
+    z-index: 2;
+    pointer-events: none;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.25);
+}
+
+/* responsive adjustments */
+@media screen and (max-width: 480px) {
+    .firecracker { width: 68px; height: 130px; }
+    .fire-avatar { width: 68px; height: 130px; border-radius: 8px; }
+}
+
+@media screen and (max-width: 360px) {
+    .firecracker { width: 60px; height: 110px; }
+    .fire-avatar { width: 60px; height: 110px; border-radius: 6px; }
 }
