@@ -557,29 +557,27 @@ body {
 
 /* mobile layout tweaks so title, fuse and avatar don't overlap and everything scales nicely */
 @media (max-width: 420px) {
-    .container {
-        padding-top: 14px; /* lift content a bit on small screens */
-    }
-
+    /* larger, more visible title on phones */
     .title {
-        font-size: 20px;         /* smaller title on phones */
+        font-size: 26px;         /* increased for readability */
         line-height: 1.05;
-        margin: 6px auto 10px;
-        padding: 4px 10px;
+        margin: 8px auto 12px;
+        padding: 6px 12px;
         white-space: nowrap;
         text-overflow: clip;
-        z-index: 30;             /* ensure title sits above fuse/avatar */
+        z-index: 30;
         display: inline-block;
-        background: rgba(0,0,0,0.15); /* subtle backdrop to keep title readable */
+        background: rgba(0,0,0,0.15);
         border-radius: 6px;
         box-shadow: 0 8px 18px rgba(0,0,0,0.45);
     }
 
+    /* make the firecracker & avatar a bit bigger so the face is clearer */
     .firecracker {
-        width: 56px;             /* smaller cracker */
-        height: 120px;
-        margin: 2px auto 18px;   /* reduce spacing so title remains visible */
-        border-radius: 8px;
+        width: 80px;             /* slightly bigger */
+        height: 140px;
+        margin: 6px auto 18px;
+        border-radius: 10px;
         z-index: 20;
     }
 
@@ -592,16 +590,11 @@ body {
     }
 
     .fuse {
-        top: -26px;              /* move fuse up so it doesn't overlap title */
+        top: -28px;
         left: 50%;
         transform: translateX(-50%);
-        z-index: 28;             /* keep fuse above avatar but below title */
+        z-index: 28;
         pointer-events: none;
-    }
-
-    .fuse .spark {
-        width: 10px;
-        height: 10px;
     }
 
     .instruction {
@@ -609,22 +602,30 @@ body {
         margin-top: 12px;
     }
 }
-
-/* extra small phones */
+/* ...existing code... */
 @media (max-width: 360px) {
+    /* ...existing code... */
+
+    /* keep things slightly larger on very small phones but balanced */
     .title {
-        font-size: 18px;
-        padding: 3px 8px;
+        font-size: 22px;
+        padding: 4px 10px;
         margin-bottom: 8px;
     }
 
     .firecracker {
-        width: 48px;
-        height: 100px;
+        width: 64px;
+        height: 120px;
         margin-bottom: 12px;
     }
 
-    .fuse { top: -22px; }
+    .fire-avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+    }
+
+    .fuse { top: -24px; }
     .fuse .spark { width: 9px; height: 9px; }
     .instruction { font-size: 12px; }
 }
