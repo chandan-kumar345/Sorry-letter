@@ -610,21 +610,81 @@ body {
     }
 }
 
-/* extra small phones */
-@media (max-width: 360px) {
+/* Mobile improvements: bigger title/avatar and responsive envelope */
+@media (max-width: 420px) {
+    .container { padding-top: 18px; }
+
+    /* larger, centered title so it reads on phones */
     .title {
-        font-size: 18px;
-        padding: 3px 8px;
-        margin-bottom: 8px;
+        display: block;
+        font-size: 26px;
+        margin: 10px auto 14px;
+        padding: 6px 12px;
+        background: rgba(0,0,0,0.16);
+        border-radius: 8px;
+        max-width: 94vw;
+        white-space: nowrap;
+        z-index: 40;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.45);
     }
 
+    /* make the cracker + avatar bigger and centered */
     .firecracker {
-        width: 48px;
-        height: 100px;
-        margin-bottom: 12px;
+        width: 84px;
+        height: 150px;
+        margin: 6px auto 14px;
+        border-radius: 10px;
+        z-index: 30;
+    }
+    .fire-avatar {
+        width: 84px;
+        height: 150px;
+        border-radius: 10px;
+        object-fit: cover;
+        box-shadow: inset 0 6px 18px rgba(0,0,0,0.25);
     }
 
-    .fuse { top: -22px; }
-    .fuse .spark { width: 9px; height: 9px; }
+    /* make envelope responsive and centered */
+    .envelope {
+        width: 94%;
+        max-width: 520px;
+        height: 220px;
+        margin: 8px auto 18px;
+        border-radius: 8px;
+    }
+    /* scale triangle flap using viewport units so it stays proportional */
+    .envelope-flap {
+        left: 50%;
+        transform: translateX(-50%);
+        border-left: 15vw solid transparent;
+        border-right: 15vw solid transparent;
+        border-top: 8vh solid #d4b896;
+        top: 0;
+    }
+
+    /* letter content inside envelope scales to available space */
+    .letter {
+        width: 86%;
+        left: 7%;
+        top: 12px;
+        height: calc(100% + 40px);
+        padding: 14px;
+        font-size: 15px;
+    }
+
+    .instruction {
+        font-size: 14px;
+        margin-top: 12px;
+    }
+}
+
+/* Extra small phones - keep things readable but not oversized */
+@media (max-width: 360px) {
+    .title { font-size: 22px; padding: 5px 10px; margin-bottom: 10px; }
+    .firecracker { width: 72px; height: 130px; margin-bottom: 12px; }
+    .fire-avatar { width: 72px; height: 130px; border-radius: 8px; }
+    .envelope { height: 200px; }
+    .envelope-flap { border-left: 14vw solid transparent; border-right: 14vw solid transparent; border-top: 7.5vh solid #d4b896; }
+    .letter { font-size: 14px; padding: 12px; height: calc(100% + 32px); }
     .instruction { font-size: 12px; }
 }
