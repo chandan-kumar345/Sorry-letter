@@ -11,13 +11,19 @@ body {
     justify-content: center;
     align-items: center;
     font-family: 'Arial', sans-serif;
-    overflow: hidden;
+    overflow: auto; /* allow scrolling on small screens */
     position: relative;
 }
 
+/* keep the container centered on desktop but responsive on mobile */
 .container {
     text-align: center;
     z-index: 10;
+    position: relative; /* enable absolute child positioning */
+    width: 100%;
+    max-width: 880px;
+    padding: 0 20px;
+    margin: 0 auto;
 }
 
 .firecracker {
@@ -30,6 +36,7 @@ body {
     cursor: pointer;
     transition: transform 0.3s, opacity 0.5s;
     box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+    overflow: hidden; /* clip avatar to cracker shape */
 }
 
 .firecracker:hover {
@@ -48,12 +55,8 @@ body {
 }
 
 .firecracker::after {
-    content: '🎆';
-    position: absolute;
-    top: -50px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 24px;
+    /* hide the fireworks emoji */
+    display: none;
 }
 
 .fuse {
@@ -73,9 +76,10 @@ body {
     100% { height: 30px; }
 }
 
+/* make envelope scale instead of fixed px sizes on small screens */
 .envelope {
-    width: 300px;
-    height: 200px;
+    width: 420px;
+    height: 280px;
     background: #f4e4c1;
     margin: 0 auto;
     position: relative;
@@ -286,31 +290,10 @@ body {
     word-break: normal;
     overflow-wrap: normal;
     -webkit-font-smoothing: antialiased;
+    z-index: 30;
 }
 
-/* extra tweak for very narrow phones */
-@media (max-width: 420px) {
-    .title {
-        font-size: clamp(14px, 9.5vw, 32px);
-        max-width: 92vw;
-        margin-bottom: 14px;
-    }
-}
-
-.sparkle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: white;
-    border-radius: 50%;
-    animation: sparkle 1.5s infinite;
-}
-
-@keyframes sparkle {
-    0%, 100% { opacity: 0; transform: scale(0); }
-    50% { opacity: 1; transform: scale(1); }
-}
-
+/* adjust overlay on very small screens so it doesn't cover everything */
 .overlay {
     position: fixed;
     top: 0;
@@ -323,7 +306,7 @@ body {
     flex-direction: column;
     justify-content: flex-start; /* keep overlay content from centering over page content */
     align-items: center;
-    padding-top: 80px; /* push content down so it doesn't overlap envelope */
+    padding-top: 72px; /* slightly smaller on mobile */
 }
 
 .overlay-text {
@@ -544,4 +527,104 @@ body {
     .forgive-text {
         font-size: 14px;
     }
+}
+
+/* avatar fills the cracker area */
+.fire-avatar {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;      /* match .firecracker width */
+    height: 150px;    /* match .firecracker height */
+    object-fit: cover;
+    border-radius: 8px; /* slightly inset to match cracker corners */
+    z-index: 2;
+    pointer-events: none;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.25);
+}
+
+/* responsive adjustments */
+@media screen and (max-width: 480px) {
+    .firecracker { width: 68px; height: 130px; }
+    .fire-avatar { width: 68px; height: 130px; border-radius: 8px; }
+}
+
+@media screen and (max-width: 360px) {
+    .firecracker { width: 60px; height: 110px; }
+    .fire-avatar { width: 60px; height: 110px; border-radius: 6px; }
+}
+
+/* mobile layout tweaks so title, fuse and avatar don't overlap and everything scales nicely */
+@media (max-width: 420px) {
+    .container {
+        padding-top: 14px; /* lift content a bit on small screens */
+    }
+
+    .title {
+        font-size: 20px;         /* smaller title on phones */
+        line-height: 1.05;
+        margin: 6px auto 10px;
+        padding: 4px 10px;
+        white-space: nowrap;
+        text-overflow: clip;
+        z-index: 30;             /* ensure title sits above fuse/avatar */
+        display: inline-block;
+        background: rgba(0,0,0,0.15); /* subtle backdrop to keep title readable */
+        border-radius: 6px;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.45);
+    }
+
+    .firecracker {
+        width: 56px;             /* smaller cracker */
+        height: 120px;
+        margin: 2px auto 18px;   /* reduce spacing so title remains visible */
+        border-radius: 8px;
+        z-index: 20;
+    }
+
+    .fire-avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        object-fit: cover;
+        box-shadow: inset 0 6px 18px rgba(0,0,0,0.25);
+    }
+
+    .fuse {
+        top: -26px;              /* move fuse up so it doesn't overlap title */
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 28;             /* keep fuse above avatar but below title */
+        pointer-events: none;
+    }
+
+    .fuse .spark {
+        width: 10px;
+        height: 10px;
+    }
+
+    .instruction {
+        font-size: 13px;
+        margin-top: 12px;
+    }
+}
+
+/* extra small phones */
+@media (max-width: 360px) {
+    .title {
+        font-size: 18px;
+        padding: 3px 8px;
+        margin-bottom: 8px;
+    }
+
+    .firecracker {
+        width: 48px;
+        height: 100px;
+        margin-bottom: 12px;
+    }
+
+    .fuse { top: -22px; }
+    .fuse .spark { width: 9px; height: 9px; }
+    .instruction { font-size: 12px; }
 }
